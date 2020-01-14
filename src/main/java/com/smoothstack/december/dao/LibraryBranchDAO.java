@@ -57,7 +57,7 @@ public class LibraryBranchDAO extends BaseDAO<LibraryBranch> implements ResultSe
 
         while (rs.next()) {
             LibraryBranch branch = new LibraryBranch();
-            branch.setBranchId(rs.getInt("branchId"));
+            branch.setId(rs.getInt("branchId"));
             branch.setName(rs.getString("branchName"));
             branch.setAddress(rs.getString("branchAddress"));
             branches.add(branch);

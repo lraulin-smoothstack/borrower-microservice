@@ -1,32 +1,40 @@
 package com.smoothstack.december.entity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class BookLoan {
     private int bookId;
     private int branchId;
     private int cardNumber;
-    private Date dateOut;
-    private Date dateIn;
+    private LocalDate dateOut;
+    private LocalDate dateIn;
+    private LocalDate dueDate;
 
     public BookLoan() {
     }
 
-    public Date getDateIn() {
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public LocalDate getDateIn() {
         return dateIn;
     }
 
-    public void setDateIn(Date dateIn) {
+    public void setDateIn(LocalDate dateIn) {
         this.dateIn = dateIn;
     }
 
-    public Date getDateOut() {
+    public LocalDate getDateOut() {
         return dateOut;
     }
 
-    public void setDateOut(Date dateOut) {
+    public void setDateOut(LocalDate dateOut) {
         this.dateOut = dateOut;
     }
 
@@ -54,7 +62,7 @@ public class BookLoan {
         this.bookId = bookId;
     }
 
-    public BookLoan(int bookId, int branchId, int cardNumber, Date dateOut, Date dateIn) {
+    public BookLoan(int bookId, int branchId, int cardNumber, LocalDate dateOut, LocalDate dateIn) {
         this.setBookId(bookId);
         this.setBranchId(branchId);
         this.setCardNumber(cardNumber);
@@ -66,13 +74,9 @@ public class BookLoan {
         this.setBookId(bookId);
         this.setBranchId(branchId);
         this.setCardNumber(cardNumber);
-        try {
 
-            this.setDateOut(new SimpleDateFormat("dd/MM/yyyy").parse(dateOut));
-            this.setDateIn(new SimpleDateFormat("dd/MM/yyyy").parse(dateIn));
-        } catch (ParseException e) {
-            System.out.println(e);
-        }
+        this.setDateOut(LocalDate.parse(dateOut, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        this.setDateIn(LocalDate.parse(dateOut, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 
 }

@@ -94,7 +94,7 @@ public class BookLoanDAO extends BaseDAO<BookLoan> implements ResultSetExtractor
 
         while (rs.next()) {
             BookLoan bookLoan = new BookLoan();
-            bookLoan.setId(rs.getInt("bookId"));
+            bookLoan.setBookId(rs.getInt("bookId"));
             bookLoan.setBranchId(rs.getInt("branchId"));
             bookLoan.setCardNumber(rs.getInt("cardNo"));
             bookLoan.setDateOut(LocalDate.parse(rs.getString("dateOut")));
