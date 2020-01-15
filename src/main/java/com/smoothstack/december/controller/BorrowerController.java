@@ -32,7 +32,6 @@ public class BorrowerController {
     public void checkinBook(@RequestParam("bookId") int bookId, @RequestParam("branchId") int branchId,
             @RequestParam("cardNumber") int cardNumber) {
         borrowerService.checkinBook(bookId, branchId, cardNumber);
-
     }
 
     @RequestMapping(path = "/lms/borrower/branches", method = RequestMethod.GET)

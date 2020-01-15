@@ -14,10 +14,10 @@ import com.smoothstack.december.dao.*;
 @Configuration
 public class LMSConfig {
 
-    private static final String DRIVER = "org.sqlite.JDBC";
+    private static final String DRIVER = "com.mysql.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/library?useSSL=false";
     private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    private static final String PASSWORD = "";
 
     @Bean
     public DataSource dataSource() {
