@@ -14,7 +14,7 @@ import com.smoothstack.december.dao.*;
 @Configuration
 public class LMSConfig {
 
-    private static final String DRIVER = "com.mysql.jdbc.Driver";
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String URL = "jdbc:mysql://localhost:3306/library?useSSL=false";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "";
