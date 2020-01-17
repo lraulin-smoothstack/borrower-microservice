@@ -3,14 +3,20 @@ package com.smoothstack.december.entity;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tbl_book")
 public class Book {
 
-    private String title;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    private String title;
     private List<Author> authors;
     private List<Genre> genres;
     private List<Branch> branches;
