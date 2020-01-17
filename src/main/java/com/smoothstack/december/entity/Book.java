@@ -2,7 +2,11 @@ package com.smoothstack.december.entity;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "tbl_book")
 public class Book {
 
     private String title;
