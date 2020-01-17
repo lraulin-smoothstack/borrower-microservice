@@ -1,12 +1,9 @@
 package com.smoothstack.december.entity;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_book")
@@ -16,11 +13,15 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "title")
     private String title;
-    private List<Author> authors;
-    private List<Genre> genres;
-    private List<Branch> branches;
-    private Publisher publisher;
+
+    @ManyToMany(mappedBy = "tbl_author")
+    private Set<Author> authors = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "publisherId", nullable = false)
+    private Publisher publishers;
 
     public String getTitle() {
         return title;
@@ -30,36 +31,12 @@ public class Book {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
-    }
-
-    public List<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(List<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public List<Branch> getBranches() {
-        return branches;
-    }
-
-    public void setBranches(List<Branch> branches) {
-        this.branches = branches;
-    }
-
-    public Publisher getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
     }
 
     public Integer getId() {
@@ -70,13 +47,4 @@ public class Book {
         this.id = id;
     }
 
-    public String getAuthorNames() {
-        return String.join(", ", getAuthors().stream().map(a -> a.getName()).collect(Collectors.toList()));
-    }
-
-    @Override
-    public String toString() {
-        return new StringBuilder().append("{").append(this.id).append("} \"").append(title).append("\" by ")
-                .append(getAuthorNames()).toString();
-    }
 }

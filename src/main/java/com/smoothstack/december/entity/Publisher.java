@@ -1,20 +1,27 @@
 package com.smoothstack.december.entity;
 
+import java.util.Set;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tbl_publisher")
 public class Publisher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "publisherName")
     private String name;
+
+    @Column(name = "publisherAddress")
     private String address;
+
+    @Column(name = "publisherPhone")
     private String phoneNumber;
 
-    public Publisher() {
-    }
-
-    public Publisher(int id, String name, String address, String phoneNumber) {
-        this.setId(id);
-        this.setName(name);
-        this.setAddress(address);
-        this.setPhoneNumber(phoneNumber);
-    }
+    @OneToMany(mappedBy = "tbl_publisher")
+    private Set<Book> books;
 
     public String getPhoneNumber() {
         return phoneNumber;

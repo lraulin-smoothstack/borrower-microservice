@@ -1,8 +1,13 @@
 package com.smoothstack.december.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+@Entity
+@Table(name="tbl_book_loans")
 public class BookLoan {
     private int bookId;
     private int branchId;
@@ -10,9 +15,6 @@ public class BookLoan {
     private LocalDate dateOut;
     private LocalDate dateIn;
     private LocalDate dueDate;
-
-    public BookLoan() {
-    }
 
     public LocalDate getDueDate() {
         return dueDate;
@@ -60,23 +62,6 @@ public class BookLoan {
 
     public void setBookId(int bookId) {
         this.bookId = bookId;
-    }
-
-    public BookLoan(int bookId, int branchId, int cardNumber, LocalDate dateOut, LocalDate dateIn) {
-        this.setBookId(bookId);
-        this.setBranchId(branchId);
-        this.setCardNumber(cardNumber);
-        this.setDateOut(dateOut);
-        this.setDateIn(dateIn);
-    }
-
-    public BookLoan(int bookId, int branchId, int cardNumber, String dateOut, String dateIn) {
-        this.setBookId(bookId);
-        this.setBranchId(branchId);
-        this.setCardNumber(cardNumber);
-
-        this.setDateOut(LocalDate.parse(dateOut, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        this.setDateIn(LocalDate.parse(dateOut, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 
 }

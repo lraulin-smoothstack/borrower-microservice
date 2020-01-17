@@ -1,12 +1,34 @@
 package com.smoothstack.december.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tbl_author")
 public class Author {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int authorId;
-    private String name;
-    private List<Book> books;
+
+    @Column(name = "authorName")
+    private String authorName;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(name = "tbl_book_authors", joinColumns = { @JoinColumn(name = "authorId") }, inverseJoinColumns = {
+            @JoinColumn(name = "bookId") })
+    private Set<Book> books = new HashSet<>();
 
     public int getAuthorId() {
         return authorId;
@@ -17,18 +39,18 @@ public class Author {
     }
 
     public String getName() {
-        return name;
+        return authorName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.authorName = name;
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 

@@ -1,22 +1,18 @@
 package com.smoothstack.december.entity;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tbl_book_copies")
 public class BookCopy {
-    public BookCopy() {
-    }
+    @EmbeddedId
+    private BookCopyId bookId;
 
-    public BookCopy(int bookId, int branchId, int amount) {
-        this.bookId = bookId;
-        this.branchId = branchId;
-        this.amount = amount;
-    }
-
-    private int bookId;
+    @Column(name = "branchId")
     private int branchId;
-    private int amount;
 
-    public int getBookId() {
-        return bookId;
-    }
+    @Column(name="amount")
+    private int amount;
 
     public int getBranchId() {
         return branchId;
@@ -26,15 +22,19 @@ public class BookCopy {
         return amount;
     }
 
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
     public void setBranchId(int branchId) {
         this.branchId = branchId;
     }
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public BookCopyId getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(BookCopyId bookId) {
+        this.bookId = bookId;
     }
 }
