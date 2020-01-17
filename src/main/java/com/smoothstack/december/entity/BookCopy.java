@@ -8,22 +8,11 @@ public class BookCopy {
     @EmbeddedId
     private BookCopyId bookId;
 
-    @Column(name = "branchId")
-    private int branchId;
-
     @Column(name="amount")
     private int amount;
 
-    public int getBranchId() {
-        return branchId;
-    }
-
     public int getAmount() {
         return amount;
-    }
-
-    public void setBranchId(int branchId) {
-        this.branchId = branchId;
     }
 
     public void setAmount(int amount) {

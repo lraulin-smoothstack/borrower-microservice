@@ -1,5 +1,6 @@
 package com.smoothstack.december.entity;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,9 +10,9 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Table(name="tbl_book_loans")
 public class BookLoan {
-    private int bookId;
-    private int branchId;
-    private int cardNumber;
+    @EmbeddedId
+    private BookLoanId bookId;
+
     private LocalDate dateOut;
     private LocalDate dateIn;
     private LocalDate dueDate;
@@ -40,28 +41,11 @@ public class BookLoan {
         this.dateOut = dateOut;
     }
 
-    public int getCardNumber() {
-        return cardNumber;
-    }
-
-    public void setCardNumber(int cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-
-    public int getBranchId() {
-        return branchId;
-    }
-
-    public void setBranchId(int branchId) {
-        this.branchId = branchId;
-    }
-
-    public int getBookId() {
+    public BookLoanId getBookId() {
         return bookId;
     }
 
-    public void setBookId(int bookId) {
+    public void setBookId(BookLoanId bookId) {
         this.bookId = bookId;
     }
-
 }
