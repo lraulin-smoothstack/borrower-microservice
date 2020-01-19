@@ -1,47 +1,45 @@
 package com.smoothstack.december.entity;
 
-import java.util.Map;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_library_branch")
+@Table
 public class LibraryBranch {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long branchId;
+    private Long id;
 
-    @Column(name = "branchName")
-    private String branchName;
+    @Column
+    private String name;
 
-    @Column(name = "branchAddress")
-    private String branchAddress;
+    @Column
+    private String address;
 
     // TODO: private Map<Integer, Book> books;
 
-    public Long getBranchId() {
-        return branchId;
+    public Long getId() {
+        return id;
     }
 
-    public void setBranchId(Long branchId) {
-        this.branchId = branchId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getBranchName() {
-        return branchName;
+    public String getName() {
+        return name;
     }
 
-    public String getBranchAddress() {
-        return branchAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setBranchName(String branchName) {
-        this.branchName = branchName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setBranchAddress(String branchAddress) {
-        this.branchAddress = branchAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void addBook(Book book) {

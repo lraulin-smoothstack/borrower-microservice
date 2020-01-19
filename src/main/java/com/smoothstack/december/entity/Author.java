@@ -9,41 +9,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "tbl_author")
+@Table
 public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long authorId;
+    private Long id;
 
-    @Column(name = "authorName")
-    private String authorName;
+    @Column
+    private String name;
 
     @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "tbl_book_authors", joinColumns = { @JoinColumn(name = "authorId") }, inverseJoinColumns = {
-            @JoinColumn(name = "bookId") })
+    @JoinTable
     private Set<Book> books = new HashSet<>();
 
-    public Long getAuthorId() {
-        return authorId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
-        return authorName;
+        return name;
     }
 
     public void setName(String name) {
-        this.authorName = name;
+        this.name = name;
     }
 
     public Set<Book> getBooks() {

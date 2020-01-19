@@ -5,19 +5,19 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_publisher")
+@Table
 public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long publisherId;
 
-    @Column(name = "publisherName")
+    @Column
     private String name;
 
-    @Column(name = "publisherAddress")
+    @Column
     private String address;
 
-    @Column(name = "publisherPhone")
+    @Column
     private String phoneNumber;
 
     @OneToMany(mappedBy = "publishers")

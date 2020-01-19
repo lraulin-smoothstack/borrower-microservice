@@ -8,14 +8,14 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class BookLoanId implements Serializable {
-    @Column(name = "bookId")
+    @Column
     private Long bookId;
 
-    @Column(name = "branchId")
+    @Column
     private Long branchId;
 
 
-    @Column(name = "cardNo")
+    @Column
     private Long cardNo;
 
     public Long getBookId() {

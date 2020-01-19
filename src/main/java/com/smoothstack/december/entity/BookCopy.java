@@ -3,10 +3,10 @@ package com.smoothstack.december.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_book_copies")
+@Table
 public class BookCopy {
     @EmbeddedId
-    private BookCopyId bookId;
+    private BookCopyId id;
 
     @Column(name = "amount")
     private Long amount;
@@ -19,11 +19,11 @@ public class BookCopy {
         this.amount = amount;
     }
 
-    public BookCopyId getBookId() {
-        return bookId;
+    public BookCopyId getId() {
+        return id;
     }
 
-    public void setBookId(BookCopyId bookId) {
-        this.bookId = bookId;
+    public void setId(BookCopyId id) {
+        this.id = id;
     }
 }

@@ -3,19 +3,19 @@ package com.smoothstack.december.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_borrower")
+@Table
 public class Borrower {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cardNo;
+    private Long id;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "address")
+    @Column
     private String address;
 
-    @Column(name = "phoneNumber")
+    @Column
     private String phoneNumber;
 
     public String getPhoneNumber() {
@@ -42,11 +42,11 @@ public class Borrower {
         this.name = name;
     }
 
-    public Long getCardNo() {
-        return cardNo;
+    public Long getId() {
+        return id;
     }
 
-    public void setCardNo(Long cardNo) {
-        this.cardNo = cardNo;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

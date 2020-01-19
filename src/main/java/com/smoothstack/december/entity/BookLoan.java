@@ -7,18 +7,18 @@ import javax.persistence.Table;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "tbl_book_loans")
+@Table
 public class BookLoan {
     @EmbeddedId
     private BookLoanId bookId;
 
-    @Column(name = "dateOut")
+    @Column
     private LocalDate dateOut;
 
-    @Column(name = "dateIn")
+    @Column
     private LocalDate dateIn;
 
-    @Column(name = "dueDate")
+    @Column
     private LocalDate dueDate;
 
     public LocalDate getDueDate() {

@@ -6,21 +6,22 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_book")
+@Table
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @Column
     private String title;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany
+    @JoinTable
     private Set<Author> authors = new HashSet<>();
 
     @ManyToOne
-    @JoinColumn(name = "publisherId", nullable = false)
+    @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publishers;
 
     public String getTitle() {
