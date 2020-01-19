@@ -20,7 +20,7 @@ public class Author {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int authorId;
+    private Long authorId;
 
     @Column(name = "authorName")
     private String authorName;
@@ -30,11 +30,11 @@ public class Author {
             @JoinColumn(name = "bookId") })
     private Set<Book> books = new HashSet<>();
 
-    public int getAuthorId() {
+    public Long getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(int authorId) {
+    public void setAuthorId(Long authorId) {
         this.authorId = authorId;
     }
 

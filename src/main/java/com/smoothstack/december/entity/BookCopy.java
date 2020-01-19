@@ -8,14 +8,14 @@ public class BookCopy {
     @EmbeddedId
     private BookCopyId bookId;
 
-    @Column(name="amount")
-    private int amount;
+    @Column(name = "amount")
+    private Long amount;
 
-    public int getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

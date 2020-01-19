@@ -1,55 +1,47 @@
 package com.smoothstack.december.entity;
 
-import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "tbl_library_branch")
 public class LibraryBranch {
-    private int id;
-    private String name;
-    private String address;
-    private Map<Integer, Book> books;
 
-    public LibraryBranch() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long branchId;
+
+    @Column(name = "branchName")
+    private String branchName;
+
+    @Column(name = "branchAddress")
+    private String branchAddress;
+
+    // TODO: private Map<Integer, Book> books;
+
+    public Long getBranchId() {
+        return branchId;
     }
 
-    public LibraryBranch(String name, String address) {
-        this.name = name;
-        this.address = address;
+    public void setBranchId(Long branchId) {
+        this.branchId = branchId;
     }
 
-    public LibraryBranch(int id, String name, String address) {
-        this.id = id;
-        this.name = name;
-        this.address = address;
-        this.books = new HashMap<Integer, Book>();
+    public String getBranchName() {
+        return branchName;
     }
 
-    public int getId() {
-        return id;
+    public String getBranchAddress() {
+        return branchAddress;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBranchName(String branchName) {
+        this.branchName = branchName;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public Map<Integer, Book> getBooks() {
-        return books;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setBranchAddress(String branchAddress) {
+        this.branchAddress = branchAddress;
     }
 
     public void addBook(Book book) {

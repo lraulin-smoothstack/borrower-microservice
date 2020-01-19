@@ -1,20 +1,24 @@
 package com.smoothstack.december.entity;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 @Entity
-@Table(name="tbl_book_loans")
+@Table(name = "tbl_book_loans")
 public class BookLoan {
     @EmbeddedId
     private BookLoanId bookId;
 
+    @Column(name = "dateOut")
     private LocalDate dateOut;
+
+    @Column(name = "dateIn")
     private LocalDate dateIn;
+
+    @Column(name = "dueDate")
     private LocalDate dueDate;
 
     public LocalDate getDueDate() {
