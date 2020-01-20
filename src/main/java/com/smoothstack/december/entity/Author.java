@@ -24,8 +24,7 @@ public class Author {
     @Column
     private String name;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable
+    @ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
     public Long getId() {

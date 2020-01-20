@@ -23,8 +23,7 @@ public class Genre {
     @Column
     private String name;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable
+    @ManyToMany(cascade = { CascadeType.ALL }, mappedBy = "genres")
     private Set<Book> books = new HashSet<>();
 
     public Long getId() {
