@@ -46,12 +46,7 @@ public class BorrowerController {
     @GetMapping("/branch-{:branchId}")
     public List<Book> getAvailableBooksNotCheckedOut(@PathVariable("branchId") long branchId,
             @RequestParam("borrowerId") long borrowerId) {
-        try {
-            return borrowerService.getAvailableBooksNotCheckedOut(branchId, borrowerId);
-        } catch (SQLException e) {
-            System.out.println(e);
-        }
-        return null;
+        return borrowerService.getAvailableBooksNotCheckedOut(branchId, borrowerId);
     }
     //
     // @GetMapping("/bookloans/{:branchId}")

@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -46,6 +47,7 @@ public class BorrowerService {
         if (bookCopy.isPresent()) {
             BookCopy bc = bookCopy.get();
             bc.setAmount(bc.getAmount() - 1);
+            bookCopyDAO.save(bc);
         }
         // else {
         // No copies are available
@@ -59,10 +61,11 @@ public class BorrowerService {
             BookLoan bookLoan = maybeBookLoan.get();
             bookLoan.setDateIn(LocalDate.now());
 
-            Optional<BookCopy> bookCopy = bookCopyDAO.findById(new BookCopyId(bookId, branchId));
-            if (bookCopy.isPresent()) {
-                BookCopy bc = bookCopy.get();
-                bc.setAmount(bc.getAmount() + 1);
+            Optional<BookCopy> maybeBookCopy = bookCopyDAO.findById(new BookCopyId(bookId, branchId));
+            if (maybeBookCopy.isPresent()) {
+                BookCopy bookCopy = maybeBookCopy.get();
+                bookCopy.setAmount(bookCopy.getAmount() + 1);
+                bookCopyDAO.save(bookCopy);
             }
             // else {
             // No record of library having returned book
@@ -72,6 +75,17 @@ public class BorrowerService {
     }
 
     public List<Book> getAvailableBooksNotCheckedOut(long branchId, long borrowerId) {
-        bookDAO.findAll().stream().filter(b->)
+        // Get books user has checked out
+        List<Long> idsOfBooksCheckedOutByUser = bookLoanDAO.findAll().stream()
+                .filter(bl -> bl.getId().getBorrowerId() == borrowerId).map(bl -> bl.getId().getBorrowerId())
+                .collect(Collectors.toList());
+        List<Long> idsOfBooksAvailableAtBranchAndNotCheckedOutByUser = bookCopyDAO.findAll().stream()
+                .filter(bc -> bc.getId().getBranchId() == branchId).filter(bc -> bc.getAmount() > 0)
+                .filter(bc -> !idsOfBooksCheckedOutByUser.contains(bc.getId().getBookId()))
+                .map(bc -> bc.getId().getBookId()).collect(Collectors.toList());
+        List<Book> booksAvailableAtBranchAndNotCheckedOutByUser = bookDAO.findAll().stream()
+                .filter(b -> idsOfBooksAvailableAtBranchAndNotCheckedOutByUser.contains(b.getId()))
+                .collect(Collectors.toList());
+        return booksAvailableAtBranchAndNotCheckedOutByUser;
     }
 }

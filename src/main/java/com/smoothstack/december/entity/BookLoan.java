@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table
 public class BookLoan {
     @EmbeddedId
-    private BookLoanId bookId;
+    private BookLoanId id;
 
     @Column
     private LocalDate dateOut;
@@ -45,11 +45,11 @@ public class BookLoan {
         this.dateOut = dateOut;
     }
 
-    public BookLoanId getBookId() {
-        return bookId;
+    public BookLoanId getId() {
+        return id;
     }
 
-    public void setBookId(BookLoanId bookId) {
-        this.bookId = bookId;
+    public void setBookId(BookLoanId id) {
+        this.id = id;
     }
 }
