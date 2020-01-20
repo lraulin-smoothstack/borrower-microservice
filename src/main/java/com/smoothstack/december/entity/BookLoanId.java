@@ -8,6 +8,21 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class BookLoanId implements Serializable {
+    @Column
+    private Long bookId;
+
+    @Column
+    private Long borrowerId;
+
+    @Column
+    private Long branchId;
+
+    public BookLoanId(long bookId, long borrowerId, long branchId) {
+        this.bookId = bookId;
+        this.borrowerId = borrowerId;
+        this.branchId = branchId;
+    }
+
     public Long getBookId() {
         return bookId;
     }
@@ -15,9 +30,6 @@ public class BookLoanId implements Serializable {
     public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
-
-    @Column
-    private Long bookId;
 
     public Long getBranchId() {
         return branchId;
@@ -27,9 +39,6 @@ public class BookLoanId implements Serializable {
         this.branchId = branchId;
     }
 
-    @Column
-    private Long branchId;
-
     public Long getBorrowerId() {
         return borrowerId;
     }
@@ -37,9 +46,6 @@ public class BookLoanId implements Serializable {
     public void setBorrowerId(Long borrowerId) {
         this.borrowerId = borrowerId;
     }
-
-    @Column
-    private Long borrowerId;
 
     @Override
     public boolean equals(Object o) {
