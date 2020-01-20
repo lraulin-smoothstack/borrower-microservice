@@ -1,10 +1,16 @@
 package com.smoothstack.december.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +22,10 @@ public class Genre {
 
     @Column
     private String name;
+
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable
+    private Set<Book> books = new HashSet<>();
 
     public Long getId() {
         return id;

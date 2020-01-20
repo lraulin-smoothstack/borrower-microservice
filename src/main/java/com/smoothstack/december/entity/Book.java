@@ -24,6 +24,10 @@ public class Book {
     @JoinColumn(name = "publisher_id", nullable = false)
     private Publisher publishers;
 
+    @ManyToMany
+    @JoinTable
+    private Set<Genre> genres = new HashSet<>();
+
     public String getTitle() {
         return title;
     }

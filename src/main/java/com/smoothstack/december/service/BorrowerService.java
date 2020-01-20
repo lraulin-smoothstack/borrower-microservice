@@ -75,7 +75,6 @@ public class BorrowerService {
     }
 
     public List<Book> getAvailableBooksNotCheckedOut(long branchId, long borrowerId) {
-        // Get books user has checked out
         List<Long> idsOfBooksCheckedOutByUser = bookLoanDAO.findAll().stream()
                 .filter(bl -> bl.getId().getBorrowerId() == borrowerId).map(bl -> bl.getId().getBorrowerId())
                 .collect(Collectors.toList());
@@ -83,9 +82,12 @@ public class BorrowerService {
                 .filter(bc -> bc.getId().getBranchId() == branchId).filter(bc -> bc.getAmount() > 0)
                 .filter(bc -> !idsOfBooksCheckedOutByUser.contains(bc.getId().getBookId()))
                 .map(bc -> bc.getId().getBookId()).collect(Collectors.toList());
-        List<Book> booksAvailableAtBranchAndNotCheckedOutByUser = bookDAO.findAll().stream()
+        return bookDAO.findAll().stream()
                 .filter(b -> idsOfBooksAvailableAtBranchAndNotCheckedOutByUser.contains(b.getId()))
                 .collect(Collectors.toList());
-        return booksAvailableAtBranchAndNotCheckedOutByUser;
+    }
+
+    public List<BookLoan> getBookLoansForBorrower(long branchId, long borrowerId) {
+        return bookLoanDAO.findAll().stream().filter(l->(l.getId().getBorrowerId()==borrowerId && l.getId().getBranchId()==branchId)).collect(Collectors.toList());
     }
 }
