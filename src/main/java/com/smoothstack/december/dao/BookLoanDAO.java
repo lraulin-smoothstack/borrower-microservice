@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.smoothstack.december.entity.*;
 
 @Repository
-public interface BookLoanDAO extends JpaRepository<BookLoan, Long> {
+public interface BookLoanDAO extends JpaRepository<BookLoan, BookLoanId> {
 }

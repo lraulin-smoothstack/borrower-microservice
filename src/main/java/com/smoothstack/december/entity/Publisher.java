@@ -9,7 +9,7 @@ import javax.persistence.*;
 public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long publisherId;
+    private Long id;
 
     @Column
     private String name;
@@ -47,12 +47,12 @@ public class Publisher {
         this.name = name;
     }
 
-    public Long getPublisherId() {
-        return publisherId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPublisherId(Long publisherId) {
-        this.publisherId = publisherId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
 }
