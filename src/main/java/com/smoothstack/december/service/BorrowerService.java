@@ -34,6 +34,15 @@ public class BorrowerService {
     }
 
     public void checkOutBook(long bookId, long branchId, long borrowerId) {
+        Optional<BookCopy> bookCopy = bookCopyDAO.findById(new BookCopyId(bookId, branchId));
+        if (bookCopy.isPresent()) {
+            BookCopy bc = bookCopy.get();
+            bc.setAmount(bc.getAmount() - 1);
+            bookCopyDAO.save(bc);
+        } else {
+            return;
+        }
+
         LocalDate localDate = LocalDate.now();
         int CHECKOUT_DAYS = 7;
 
@@ -43,16 +52,6 @@ public class BorrowerService {
         bookLoan.setDueDate(localDate.plusDays(CHECKOUT_DAYS));
         bookLoanDAO.save(bookLoan);
 
-        Optional<BookCopy> bookCopy = bookCopyDAO.findById(new BookCopyId(bookId, branchId));
-        if (bookCopy.isPresent()) {
-            BookCopy bc = bookCopy.get();
-            bc.setAmount(bc.getAmount() - 1);
-            bookCopyDAO.save(bc);
-        }
-        // else {
-        // No copies are available
-        // TODO: Handle error properly
-        // }
     }
 
     public void checkInBook(long bookId, long branchId, long borrowerId) {
@@ -69,7 +68,6 @@ public class BorrowerService {
             }
             // else {
             // No record of library having returned book
-            // TODO: Handle error properly
             // }
         }
     }
@@ -88,6 +86,8 @@ public class BorrowerService {
     }
 
     public List<BookLoan> getBookLoansForBorrower(long branchId, long borrowerId) {
-        return bookLoanDAO.findAll().stream().filter(l->(l.getId().getBorrowerId()==borrowerId && l.getId().getBranchId()==branchId)).collect(Collectors.toList());
+        return bookLoanDAO.findAll().stream()
+                .filter(l -> (l.getId().getBorrowerId() == borrowerId && l.getId().getBranchId() == branchId))
+                .collect(Collectors.toList());
     }
 }
