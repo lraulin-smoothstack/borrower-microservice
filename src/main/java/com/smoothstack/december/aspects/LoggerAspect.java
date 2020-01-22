@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 public class LoggerAspect {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @After("execution(* com.smoothstack.december.dao.*.*(...)")
+    @After("execution(* com.smoothstack.december.dao.*.*(..))")
     public void before(JoinPoint joinPoint) {
         logger.info(" Allowed execution for {}", joinPoint);
     }

@@ -6,7 +6,9 @@ import com.smoothstack.december.dao.BookLoanDAO;
 import com.smoothstack.december.dao.LibraryBranchDAO;
 import com.smoothstack.december.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -40,7 +42,7 @@ public class BorrowerService {
             bc.setAmount(bc.getAmount() - 1);
             bookCopyDAO.save(bc);
         } else {
-            return;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with ID " + bookId + " is not available at branch with ID " + branchId + ".");
         }
 
         LocalDate localDate = LocalDate.now();
