@@ -47,7 +47,6 @@ public class BorrowerController {
 
     @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkin")
     public ResponseEntity<BookLoan> checkInBook(@RequestBody @Valid BookLoanId id) {
-        // borrowerService.checkInBook(bookId, branchId, borrowerId);
         BookLoan response = null;
         try {
             logger.debug("request: {}", id.toString());
