@@ -64,8 +64,16 @@ public class BorrowerController {
     }
 
     @GetMapping("/branches")
-    public List<LibraryBranch> getLibraryBranches() {
-        return borrowerService.getLibraryBranches();
+    public ResponseEntity<List<LibraryBranch>> getLibraryBranches() {
+        List<LibraryBranch> response = null;
+        try {
+            response = borrowerService.getLibraryBranches();
+            logger.debug("response: {}", response.toString());
+        } catch (Exception e) {
+            logger.error(e.toString());
+        }
+
+        return new ResponseEntity<List<LibraryBranch>>(response, HttpStatus.OK);
     }
 
     @GetMapping("/borrowers/{borrowerId}/branches/{branchId}/available-books/")
