@@ -34,7 +34,7 @@ public class BorrowerController {
         try {
             logger.debug("request: {}", id.toString());
             response = borrowerService.checkOutBook(id);
-            logger.debug("response: {}", response.toString())
+            logger.debug("response: {}", response.toString());
         } catch (ArgumentMissingException argumentMissingException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, argumentMissingException.getMessage());
         } catch (IllegalRelationReferenceException illegalRelationReferenceException) {
@@ -51,7 +51,7 @@ public class BorrowerController {
         try {
             logger.debug("request: {}", id.toString());
             response = borrowerService.checkInBook(id);
-            logger.debug("response: {}", response.toString())
+            logger.debug("response: {}", response.toString());
         } catch (ArgumentMissingException argumentMissingException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, argumentMissingException.getMessage());
         } catch (IllegalRelationReferenceException illegalRelationReferenceException) {

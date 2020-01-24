@@ -43,7 +43,7 @@ public class BorrowerService {
             bookCopyDAO.save(bc);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Book with ID " + id.getBookId() + " is not available at branch with ID " + branchId + ".");
+                    "Book with ID " + id.getBookId() + " is not available at branch with ID " + id.getBranchId() + ".");
         }
 
         LocalDate localDate = LocalDate.now();
