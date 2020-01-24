@@ -8,6 +8,8 @@ import com.smoothstack.december.entity.Book;
 import com.smoothstack.december.entity.BookLoan;
 import com.smoothstack.december.entity.BookLoanId;
 import com.smoothstack.december.entity.LibraryBranch;
+import com.smoothstack.december.exception.ArgumentMissingException;
+import com.smoothstack.december.exception.IllegalRelationReferenceException;
 import com.smoothstack.december.service.BorrowerService;
 
 import org.apache.logging.log4j.LogManager;
@@ -35,6 +37,10 @@ public class BorrowerController {
             logger.debug("response: {}", response.toString())
         } catch (ArgumentMissingException argumentMissingException) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, argumentMissingException.getMessage());
+        } catch (IllegalRelationReferenceException illegalRelationReferenceException) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception exception) {
+            logger.error(exception.toString());
         }
         return new ResponseEntity<BookLoan>(response, HttpStatus.OK);
     }
