@@ -94,8 +94,20 @@ public class BorrowerController {
     }
 
     @GetMapping("/branches/{branchId}/borrowers/{borrowerId}")
-    public List<BookLoan> getBookLoans(@PathVariable("branchId") long branchId,
+    public ResponseEntity<List<BookLoan>> getBookLoans(@PathVariable("branchId") long branchId,
             @PathVariable("borrowerId") long borrowerId) {
-        return borrowerService.getBookLoansForBorrower(branchId, borrowerId);
+        List<BookLoan> response = null;
+
+        try {
+            logger.debug("request: {}", branchId);
+            response = borrowerService.getBookLoansForBorrower(branchId, borrowerId);
+            logger.debug("response: {}", response.toString());
+        } catch (IllegalRelationReferenceException irre) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, irre.getMessage(), irre);
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+
+        return new ResponseEntity<List<BookLoan>>(response, HttpStatus.OK);
     }
 }
