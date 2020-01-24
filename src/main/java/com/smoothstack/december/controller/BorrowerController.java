@@ -46,9 +46,21 @@ public class BorrowerController {
     }
 
     @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkin")
-    public void checkInBook(@RequestParam("bookId") long bookId, @RequestParam("branchId") long branchId,
-            @RequestParam("borrowerId") long borrowerId) {
-        borrowerService.checkInBook(bookId, branchId, borrowerId);
+    public ResponseEntity<BookLoan> checkInBook(@RequestBody @Valid BookLoanId id) {
+        // borrowerService.checkInBook(bookId, branchId, borrowerId);
+        BookLoan response = null;
+        try {
+            logger.debug("request: {}", id.toString());
+            response = borrowerService.checkInBook(id);
+            logger.debug("response: {}", response.toString())
+        } catch (ArgumentMissingException argumentMissingException) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, argumentMissingException.getMessage());
+        } catch (IllegalRelationReferenceException illegalRelationReferenceException) {
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+        return new ResponseEntity<BookLoan>(response, HttpStatus.OK);
     }
 
     @GetMapping("/branches")
