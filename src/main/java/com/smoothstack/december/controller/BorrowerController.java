@@ -2,14 +2,18 @@ package com.smoothstack.december.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import com.smoothstack.december.entity.Book;
 import com.smoothstack.december.entity.BookLoan;
+import com.smoothstack.december.entity.BookLoanId;
 import com.smoothstack.december.entity.LibraryBranch;
 import com.smoothstack.december.service.BorrowerService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,9 +25,12 @@ public class BorrowerController {
     BorrowerService borrowerService;
 
     @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkout")
-    public void checkOutBook(@PathVariable("bookId") long bookId, @PathVariable("branchId") long branchId,
-            @PathVariable("borrowerId") long borrowerId) {
-        borrowerService.checkOutBook(bookId, branchId, borrowerId);
+    public ResponseEntity<> checkOutBook(@RequestBody @Valid BookLoanId id) {
+        try {
+            logger.debug("request: {}", bookCopy.toString());
+        borrowerService.checkOutBook(id.bookId, id.branchId, id.borrowerId);
+
+        }
     }
 
     @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkin")
