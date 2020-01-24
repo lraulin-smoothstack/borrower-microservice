@@ -13,8 +13,10 @@ import com.smoothstack.december.service.BorrowerService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("v1/lms/borrower-service")
@@ -25,12 +27,16 @@ public class BorrowerController {
     BorrowerService borrowerService;
 
     @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkout")
-    public ResponseEntity<> checkOutBook(@RequestBody @Valid BookLoanId id) {
+    public ResponseEntity<BookLoan> checkOutBook(@RequestBody @Valid BookLoanId id) {
+        BookLoan response = null;
         try {
-            logger.debug("request: {}", bookCopy.toString());
-        borrowerService.checkOutBook(id.bookId, id.branchId, id.borrowerId);
-
+            logger.debug("request: {}", id.toString());
+            response = borrowerService.checkOutBook(id);
+            logger.debug("response: {}", response.toString())
+        } catch (ArgumentMissingException argumentMissingException) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, argumentMissingException.getMessage());
         }
+        return new ResponseEntity<BookLoan>(response, HttpStatus.OK);
     }
 
     @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkin")
