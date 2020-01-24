@@ -35,43 +35,47 @@ public class BorrowerService {
         return libraryBranchDAO.findAll();
     }
 
-    public void checkOutBook(long bookId, long branchId, long borrowerId) {
-        Optional<BookCopy> bookCopy = bookCopyDAO.findById(new BookCopyId(bookId, branchId));
+    public BookLoan checkOutBook(BookLoanId id) {
+        Optional<BookCopy> bookCopy = bookCopyDAO.findById(new BookCopyId(id.getBookId(), id.getBranchId()));
         if (bookCopy.isPresent()) {
             BookCopy bc = bookCopy.get();
             bc.setAmount(bc.getAmount() - 1);
             bookCopyDAO.save(bc);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book with ID " + bookId + " is not available at branch with ID " + branchId + ".");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Book with ID " + id.getBookId() + " is not available at branch with ID " + id.getBranchId() + ".");
         }
 
         LocalDate localDate = LocalDate.now();
         int CHECKOUT_DAYS = 7;
 
         BookLoan bookLoan = new BookLoan();
-        bookLoan.setBookId(new BookLoanId(bookId, borrowerId, branchId));
+        bookLoan.setBookId(id);
         bookLoan.setDateOut(localDate);
         bookLoan.setDueDate(localDate.plusDays(CHECKOUT_DAYS));
-        bookLoanDAO.save(bookLoan);
+        return bookLoanDAO.save(bookLoan);
 
     }
 
-    public void checkInBook(long bookId, long branchId, long borrowerId) {
-        Optional<BookLoan> maybeBookLoan = bookLoanDAO.findById(new BookLoanId(bookId, borrowerId, branchId));
+    public BookLoan checkInBook(BookLoanId id) {
+        BookLoan bookLoan = null;
+        Optional<BookLoan> maybeBookLoan = bookLoanDAO.findById(id);
         if (maybeBookLoan.isPresent()) {
-            BookLoan bookLoan = maybeBookLoan.get();
+            bookLoan = maybeBookLoan.get();
             bookLoan.setDateIn(LocalDate.now());
 
-            Optional<BookCopy> maybeBookCopy = bookCopyDAO.findById(new BookCopyId(bookId, branchId));
+            Optional<BookCopy> maybeBookCopy = bookCopyDAO.findById(new BookCopyId(id.getBookId(), id.getBranchId()));
             if (maybeBookCopy.isPresent()) {
                 BookCopy bookCopy = maybeBookCopy.get();
                 bookCopy.setAmount(bookCopy.getAmount() + 1);
                 bookCopyDAO.save(bookCopy);
+                return bookLoan;
             }
             // else {
             // No record of library having returned book
             // }
         }
+        return bookLoan;
     }
 
     public List<Book> getAvailableBooksNotCheckedOut(long branchId, long borrowerId) {
