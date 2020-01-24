@@ -68,17 +68,29 @@ public class BorrowerController {
         try {
             response = borrowerService.getLibraryBranches();
             logger.debug("response: {}", response.toString());
-        } catch (Exception e) {
-            logger.error(e.toString());
+        } catch (Exception exception) {
+            logger.error(exception.toString());
         }
 
         return new ResponseEntity<List<LibraryBranch>>(response, HttpStatus.OK);
     }
 
     @GetMapping("/borrowers/{borrowerId}/branches/{branchId}/available-books/")
-    public List<Book> getAvailableBooksNotCheckedOut(@PathVariable("branchId") long branchId,
+    public ResponseEntity<List<Book>> getAvailableBooksNotCheckedOut(@PathVariable("branchId") long branchId,
             @PathVariable("borrowerId") long borrowerId) {
-        return borrowerService.getAvailableBooksNotCheckedOut(branchId, borrowerId);
+        List<Book> response = null;
+
+        try {
+            logger.debug("request: {}", branchId);
+            response = borrowerService.getAvailableBooksNotCheckedOut(branchId, borrowerId);
+            logger.debug("response: {}", response.toString());
+        } catch (IllegalRelationReferenceException irre) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, irre.getMessage(), irre);
+        } catch (Exception exception) {
+            logger.error(exception.toString());
+        }
+
+        return new ResponseEntity<List<Book>>(response, HttpStatus.OK);
     }
 
     @GetMapping("/branches/{branchId}/borrowers/{borrowerId}")
