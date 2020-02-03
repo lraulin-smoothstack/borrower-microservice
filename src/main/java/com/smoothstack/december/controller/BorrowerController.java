@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("v1/lms/borrower-service")
+@RequestMapping("/borrower")
 public class BorrowerController {
     private static final Logger logger = LogManager.getLogger(BorrowerController.class);
 
