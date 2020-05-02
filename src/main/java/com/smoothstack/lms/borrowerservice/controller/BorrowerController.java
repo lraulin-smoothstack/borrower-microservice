@@ -28,7 +28,7 @@ public class BorrowerController {
     @Autowired
     BorrowerService borrowerService;
 
-    @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkout")
+    @PostMapping("/borrowers/book/checkout")
     public ResponseEntity<BookLoan> checkOutBook(@RequestBody @Valid BookLoanId id) {
         BookLoan response = null;
         try {
@@ -45,7 +45,7 @@ public class BorrowerController {
         return new ResponseEntity<BookLoan>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/borrowers/{borrowerId}/branches/{branchId}/books/{bookId}:checkin")
+    @PostMapping("/borrowers/book/checkin")
     public ResponseEntity<BookLoan> checkInBook(@RequestBody @Valid BookLoanId id) {
         BookLoan response = null;
         try {
