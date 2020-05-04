@@ -93,14 +93,13 @@ public class BorrowerController {
         return new ResponseEntity<List<Book>>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/branches/{branchId}/borrowers/{borrowerId}")
-    public ResponseEntity<List<BookLoan>> getBookLoans(@PathVariable("branchId") long branchId,
-            @PathVariable("borrowerId") long borrowerId) {
+    @GetMapping("/borrowers/{borrowerId}/loans")
+    public ResponseEntity<List<BookLoan>> getBookLoans(@PathVariable("borrowerId") long borrowerId) {
         List<BookLoan> response = null;
 
         try {
-            logger.debug("request: {}", branchId);
-            response = borrowerService.getBookLoansForBorrower(branchId, borrowerId);
+            logger.debug("request: {}", borrowerId);
+            response = borrowerService.getBookLoansForBorrower(borrowerId);
             logger.debug("response: {}", response.toString());
         } catch (IllegalRelationReferenceException irre) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, irre.getMessage(), irre);
