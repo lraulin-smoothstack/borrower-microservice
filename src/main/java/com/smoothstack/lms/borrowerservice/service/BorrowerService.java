@@ -74,9 +74,6 @@ public class BorrowerService {
                 bookCopyDAO.save(bookCopy);
                 return bookLoan;
             }
-            // else {
-            // No record of library having returned book
-            // }
         }
         return bookLoan;
     }
@@ -94,9 +91,9 @@ public class BorrowerService {
                 .collect(Collectors.toList());
     }
 
-    public List<BookLoan> getBookLoansForBorrower(long branchId, long borrowerId) {
+    public List<BookLoan> getBookLoansForBorrower(long borrowerId) {
         return bookLoanDAO.findAll().stream()
-                .filter(l -> (l.getId().getBorrower().getId() == borrowerId && l.getId().getBranch().getId() == branchId))
+                .filter(l -> (l.getId().getBorrower().getId() == borrowerId && l.getDateIn() == null))
                 .collect(Collectors.toList());
     }
 }
