@@ -71,7 +71,6 @@ public class BorrowerController {
         } catch (Exception exception) {
             logger.error(exception.toString());
         }
-
         return new ResponseEntity<List<LibraryBranch>>(response, HttpStatus.OK);
     }
 

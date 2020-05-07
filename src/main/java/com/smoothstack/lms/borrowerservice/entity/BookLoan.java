@@ -154,5 +154,4 @@ public class BookLoan {
         return "BookLoan [id=" + this.id + ", dateOut=" + this.dateOut + ", dueDate=" + this.dueDate + ", dateIn="
                 + this.dateIn + "]";
     }
-
 }
