@@ -19,6 +19,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+import org.springframework.http.ResponseEntity;
+
+
 @Service
 @Transactional
 public class BorrowerService {
@@ -40,24 +44,34 @@ public class BorrowerService {
 
     public BookLoan checkOutBook(BookLoanId id) {
         Optional<BookCopy> bookCopy = bookCopyDAO.findById(new BookCopyId(id.getBook().getId(), id.getBranch().getId()));
-        if (bookCopy.isPresent()) {
+
+        Long borrowerId = id.getBorrower().getId();
+        Long bookId = id.getBook().getId();
+
+        List<Long> idsOfBooksCurrentlyCheckedOutByUser = bookLoanDAO.findAll().stream()
+                .filter(bl -> bl.getId().getBorrower().getId() == borrowerId && bl.getDateIn() == null).map(bl -> bl.getId().getBook().getId())
+                .collect(Collectors.toList());
+
+        if(idsOfBooksCurrentlyCheckedOutByUser.contains(bookId)){
+          return new BookLoan();
+        } else if(!bookCopy.isPresent()) {
+          throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                  "Book with ID " + id.getBook().getId() + " is not available at branch with ID " + id.getBranch().getId() + ".");
+        } else {
+
             BookCopy bc = bookCopy.get();
             bc.setAmount(bc.getAmount() - 1);
             bookCopyDAO.save(bc);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Book with ID " + id.getBook().getId() + " is not available at branch with ID " + id.getBranch().getId() + ".");
+
+            LocalDate localDate = LocalDate.now();
+            int CHECKOUT_DAYS = 7;
+
+            BookLoan bookLoan = new BookLoan();
+            bookLoan.setId(id);
+            bookLoan.setDateOut(localDate);
+            bookLoan.setDueDate(localDate.plusDays(CHECKOUT_DAYS));
+            return bookLoanDAO.save(bookLoan);
         }
-
-        LocalDate localDate = LocalDate.now();
-        int CHECKOUT_DAYS = 7;
-
-        BookLoan bookLoan = new BookLoan();
-        bookLoan.setId(id);
-        bookLoan.setDateOut(localDate);
-        bookLoan.setDueDate(localDate.plusDays(CHECKOUT_DAYS));
-        return bookLoanDAO.save(bookLoan);
-
     }
 
     public BookLoan checkInBook(BookLoanId id) {
@@ -79,13 +93,19 @@ public class BorrowerService {
     }
 
     public List<Book> getAvailableBooksNotCheckedOut(long branchId, long borrowerId) {
-        List<Long> idsOfBooksCheckedOutByUser = bookLoanDAO.findAll().stream()
-                .filter(bl -> bl.getId().getBorrower().getId() == borrowerId).map(bl -> bl.getId().getBorrower().getId())
+
+
+        List<Long> idsOfBooksCurrentlyCheckedOutByUser = bookLoanDAO.findAll().stream()
+                .filter(bl -> bl.getId().getBorrower().getId() == borrowerId && bl.getDateIn() == null).map(bl -> bl.getId().getBook().getId())
                 .collect(Collectors.toList());
+
+
         List<Long> idsOfBooksAvailableAtBranchAndNotCheckedOutByUser = bookCopyDAO.findAll().stream()
-                .filter(bc -> bc.getId().getBranch().getId() == branchId).filter(bc -> bc.getAmount() > 0)
-                .filter(bc -> !idsOfBooksCheckedOutByUser.contains(bc.getId().getBook().getId()))
+                .filter(bc -> bc.getId().getBranch().getId() == branchId && bc.getAmount() > 0)
+                .filter(bc -> !idsOfBooksCurrentlyCheckedOutByUser.contains(bc.getId().getBook().getId()))
                 .map(bc -> bc.getId().getBook().getId()).collect(Collectors.toList());
+
+
         return bookDAO.findAll().stream()
                 .filter(b -> idsOfBooksAvailableAtBranchAndNotCheckedOutByUser.contains(b.getId()))
                 .collect(Collectors.toList());
