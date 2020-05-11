@@ -9,11 +9,9 @@ import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.runner.RunWith;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.http.ResponseEntity;
@@ -31,14 +29,13 @@ import com.smoothstack.lms.borrowerservice.service.BorrowerService;
 
 
 @ExtendWith(MockitoExtension.class)
-@RunWith(JUnitPlatform.class)
 class BorrowerApplicationUnitTests {
-
-  @InjectMocks
-  BorrowerController borrowerController;
 
   @Mock
   BorrowerService borrowerService;
+
+  @InjectMocks
+  BorrowerController borrowerController;
 
   @Test
   public void testCheckoutBook() {
@@ -50,7 +47,7 @@ class BorrowerApplicationUnitTests {
       BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
       ResponseEntity<BookLoan> responseEntity = borrowerController.checkOutBook(bookLoanId);
 
-      assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+      assertTrue(responseEntity.getStatusCodeValue() == 201);
   }
 
   @Test
@@ -63,7 +60,7 @@ class BorrowerApplicationUnitTests {
       BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
       ResponseEntity<BookLoan> responseEntity = borrowerController.checkInBook(bookLoanId);
 
-      assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+      assertTrue(responseEntity.getStatusCodeValue() == 201);
   }
 
   @Test
@@ -74,7 +71,7 @@ class BorrowerApplicationUnitTests {
       when(borrowerService.getLibraryBranches()).thenReturn(new ArrayList<LibraryBranch>());
       ResponseEntity<List<LibraryBranch>> responseEntity = borrowerController.getLibraryBranches();
 
-      assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+      assertTrue(responseEntity.getStatusCodeValue() == 200);
   }
 
   @Test
@@ -85,9 +82,8 @@ class BorrowerApplicationUnitTests {
       when(borrowerService.getAvailableBooksNotCheckedOut(1, 1)).thenReturn(new ArrayList<Book>());
       ResponseEntity<List<Book>> responseEntity = borrowerController.getAvailableBooksNotCheckedOut(1, 1);
 
-      assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+      assertTrue(responseEntity.getStatusCodeValue() == 200);
   }
-
 
   @Test
   public void testGetLoans() {
@@ -97,7 +93,7 @@ class BorrowerApplicationUnitTests {
       when(borrowerService.getBookLoansForBorrower(1)).thenReturn(new ArrayList<BookLoan>());
       ResponseEntity<List<BookLoan>> responseEntity = borrowerController.getBookLoans(1);
 
-      assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
+      assertTrue(responseEntity.getStatusCodeValue() == 200);
   }
 
 }

@@ -35,7 +35,6 @@ import com.smoothstack.lms.borrowerservice.controller.BorrowerController;
 
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 class BorrowerApplicationIntegrationTests {
 
@@ -54,15 +53,12 @@ class BorrowerApplicationIntegrationTests {
   @Autowired
   private BorrowerController controller;
 
-  // @Test
-  // public void contextLoads() throws Exception {
-  //   assertThat(controller).isNotNull();
-  // }
-
-  // loans
+  @Test
+  public void contextLoads() throws Exception {
+    assertNotNull(controller);
+  }
 
   @Test
-  // @Transactional
   void checkoutBook() throws Exception {
 
     BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
