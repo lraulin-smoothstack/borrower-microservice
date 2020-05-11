@@ -42,7 +42,7 @@ public class BorrowerController {
         } catch (Exception exception) {
             logger.error(exception.toString());
         }
-        return new ResponseEntity<BookLoan>(response, HttpStatus.OK);
+        return new ResponseEntity<BookLoan>(response, HttpStatus.CREATED);
     }
 
     @PostMapping("/borrowers/book/checkin")
@@ -59,7 +59,7 @@ public class BorrowerController {
         } catch (Exception exception) {
             logger.error(exception.toString());
         }
-        return new ResponseEntity<BookLoan>(response, HttpStatus.OK);
+        return new ResponseEntity<BookLoan>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/branches")

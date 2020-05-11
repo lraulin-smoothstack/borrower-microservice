@@ -94,7 +94,6 @@ public class BorrowerService {
 
     public List<Book> getAvailableBooksNotCheckedOut(long branchId, long borrowerId) {
 
-
         List<Long> idsOfBooksCurrentlyCheckedOutByUser = bookLoanDAO.findAll().stream()
                 .filter(bl -> bl.getId().getBorrower().getId() == borrowerId && bl.getDateIn() == null).map(bl -> bl.getId().getBook().getId())
                 .collect(Collectors.toList());
