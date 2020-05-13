@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
-
 import javax.transaction.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,7 +32,7 @@ import com.smoothstack.lms.borrowerservice.entity.BookLoan.BookLoanId;
 import com.smoothstack.lms.borrowerservice.controller.BorrowerController;
 
 
-
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 class BorrowerApplicationIntegrationTests {
@@ -58,10 +57,11 @@ class BorrowerApplicationIntegrationTests {
     assertNotNull(controller);
   }
 
+  BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
+
   @Test
   void checkoutBook() throws Exception {
 
-    BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
     mockMvc.perform(post("/lms/borrower/borrowers/book/checkout")
            .contentType("application/json")
            .content(objectMapper.writeValueAsString(bookLoanId)))
@@ -76,13 +76,12 @@ class BorrowerApplicationIntegrationTests {
               l.getDateIn() == null))
             .collect(Collectors.toList());
 
-    assertEquals(bookLoans.size(), 1);
+    assertEquals(1, bookLoans.size());
   }
 
   @Test
   void checkinBook() throws Exception {
 
-    BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
     mockMvc.perform(post("/lms/borrower/borrowers/book/checkin")
            .contentType("application/json")
            .content(objectMapper.writeValueAsString(bookLoanId)))
@@ -97,16 +96,16 @@ class BorrowerApplicationIntegrationTests {
         l.getDateIn() == null))
       .collect(Collectors.toList());
 
-    assertEquals(bookLoans.size(), 0);
+    assertEquals(1, bookLoans.size());
   }
 
   @Test
   void getBranches() throws Exception {
 
-    ResultActions resultActions = mockMvc.perform(get("/lms/borrower/branches"))
-                                         .andExpect(status().isOk());
+    MvcResult result = mockMvc.perform(get("/lms/borrower/branches"))
+                              .andExpect(status().isOk())
+                              .andReturn();
 
-    MvcResult result = resultActions.andReturn();
     String contentAsString = result.getResponse().getContentAsString();
 
     List<LibraryBranch> response = objectMapper.readValue(contentAsString, ArrayList.class);
@@ -128,9 +127,7 @@ class BorrowerApplicationIntegrationTests {
   }
 
   @Test
-  void getLoans() throws Exception {
-
-    BookLoanId bookLoanId = new BookLoanId(1, 1, 1);
+  void getLoans() throws Exception {    
 
     mockMvc.perform(post("/lms/borrower/borrowers/book/checkout")
            .contentType("application/json")
