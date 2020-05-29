@@ -1,26 +1,27 @@
 package com.smoothstack.lms.borrowerservice.service;
 
-import com.smoothstack.lms.borrowerservice.dao.BookCopyDAO;
+import java.util.List;
+import java.util.Optional;
+import java.time.LocalDate;
+import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
+import javax.transaction.Transactional;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.smoothstack.lms.borrowerservice.dao.BookDAO;
 import com.smoothstack.lms.borrowerservice.dao.BookLoanDAO;
+import com.smoothstack.lms.borrowerservice.dao.BookCopyDAO;
 import com.smoothstack.lms.borrowerservice.dao.LibraryBranchDAO;
+
 import com.smoothstack.lms.borrowerservice.entity.*;
 import com.smoothstack.lms.borrowerservice.entity.BookCopy.BookCopyId;
 import com.smoothstack.lms.borrowerservice.entity.BookLoan.BookLoanId;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-
-import org.springframework.http.ResponseEntity;
 
 
 @Service
@@ -55,8 +56,7 @@ public class BorrowerService {
         if(idsOfBooksCurrentlyCheckedOutByUser.contains(bookId)){
           return new BookLoan();
         } else if(!bookCopy.isPresent()) {
-          throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                  "Book with ID " + id.getBook().getId() + " is not available at branch with ID " + id.getBranch().getId() + ".");
+          throw new NoSuchElementException("Book with ID " + id.getBook().getId() + " is not available at branch with ID " + id.getBranch().getId() + ".");
         } else {
 
             BookCopy bc = bookCopy.get();
