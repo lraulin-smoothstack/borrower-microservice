@@ -1,4 +1,4 @@
-package com.smoothstack.lms.borrowerservice;
+package com.smoothstack.lms.borrowerservice.unit;
 
 import java.util.List;
 import java.util.ArrayList;

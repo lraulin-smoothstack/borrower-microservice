@@ -1,4 +1,4 @@
-package com.smoothstack.lms.borrowerservice;
+package com.smoothstack.lms.borrowerservice.integration;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -127,7 +127,7 @@ class BorrowerApplicationIntegrationTests {
   }
 
   @Test
-  void getLoans() throws Exception {    
+  void getLoans() throws Exception {
 
     mockMvc.perform(post("/lms/borrower/borrowers/book/checkout")
            .contentType("application/json")
